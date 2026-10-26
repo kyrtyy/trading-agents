@@ -46,6 +46,7 @@ unserve
 
 # ---- Phase 2: Llama control (GPU1 only), training cutoff Dec 2023
 serve llama 1
+[ -f $W/probes/probe_llama.json ] || python probe.py --model llama --out $W/probes
 [ -f $W/probes/identify_llama.json ] || python probe.py --model llama --identify 100 --out $W/probes
 L="--model llama --gpus 1"
 arm $L --variant full

@@ -106,7 +106,8 @@ class View:
         out = []
         for r in data.fundamentals(self.t, self.D):
             vals = {k: self.money(v) for k, v in r["values"].items()}
-            out.append(f"{r['form']} period ending {self.date(r['period_end'])} (filed {self.date(r['filed'])}): "
+            out.append(f"{r['form']}, income/cash-flow lines cover the {r['months']} months ending "
+                       f"{self.date(r['period_end'])}, balance sheet as of that date (filed {self.date(r['filed'])}): "
                        + ", ".join(f"{k}={v:,.0f}" if isinstance(v, (int, float)) and abs(v) > 100 else f"{k}={v}"
                                    for k, v in vals.items()))
         return "\n".join(out) or "(no filings available)"

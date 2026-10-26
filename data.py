@@ -250,21 +250,39 @@ FIN_CONCEPTS = ["Revenues", "RevenueFromContractWithCustomerExcludingAssessedTax
                 "NetCashProvidedByUsedInOperatingActivities", "LongTermDebtNoncurrent"]
 
 
+def _lines(r, sections):
+    lines = {}
+    for section in sections:
+        for it in r.get("report", {}).get(section, []):
+            name = it.get("concept", "").split("_")[-1]
+            if name in FIN_CONCEPTS and name not in lines:
+                lines[name] = it.get("value")
+    return lines
+
+
 def fundamentals(t, D, n=4):
-    """Last n quarterly/annual reports filed before D, reduced to key XBRL lines."""
+    """Last n quarterly/annual reports filed before D, reduced to key XBRL lines.
+    10-Q income/cash-flow lines are fiscal-year-to-date and 10-K lines are full-year, so each is turned into its
+    own quarter by subtracting the previous filing of the same fiscal year (always filed earlier: no look-ahead).
+    Balance-sheet lines are point-in-time and kept as is. "months" says what period the flow lines cover."""
     blob = _finnhub(t)
     reps = [r for r in blob["financials"] if (r.get("filedDate") or "9")[:10] < f"{pd.Timestamp(D):%Y-%m-%d}"]
     reps.sort(key=lambda r: r["filedDate"], reverse=True)
     out = []
     for r in reps[:n]:
-        lines = {}
-        for section in ("ic", "bs", "cf"):
-            for it in r.get("report", {}).get(section, []):
-                name = it.get("concept", "").split("_")[-1]
-                if name in FIN_CONCEPTS and name not in lines:
-                    lines[name] = it.get("value")
-        out.append({"form": r.get("form"), "period_end": r.get("endDate", "")[:10],
-                    "filed": r["filedDate"][:10], "values": lines})
+        start, end = r.get("startDate", "")[:10], r.get("endDate", "")[:10]
+        flows = _lines(r, ("ic", "cf"))
+        prev = [p for p in reps if p.get("startDate", "")[:10] == start and p.get("endDate", "")[:10] < end]
+        if prev:  # YTD minus the previous YTD of the same fiscal year = this quarter alone
+            p = max(prev, key=lambda p: p["endDate"])
+            pf = _lines(p, ("ic", "cf"))
+            flows = {k: round(v - pf[k], 2) if isinstance(v, (int, float)) and isinstance(pf.get(k), (int, float)) else None
+                     for k, v in flows.items()}
+            start = p["endDate"][:10]
+        flows = {k: v for k, v in flows.items() if v is not None}
+        months = round((pd.Timestamp(end) - pd.Timestamp(start)).days / 30.4) if start and end else None
+        out.append({"form": r.get("form"), "period_end": end, "months": months,
+                    "filed": r["filedDate"][:10], "values": {**flows, **_lines(r, ("bs",))}})
     return out
 
 
