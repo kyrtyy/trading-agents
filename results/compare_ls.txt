@@ -1,0 +1,14 @@
+window A: SR(qwen__full__real__t0.7__s0__r1) - SR(qwen__single__real__t0.7__s0__r1) = +2.26  95% CI [+0.23, +4.61]  over 10 tickers
+window B: SR(qwen__full__real__t0.7__s0__r1) - SR(qwen__single__real__t0.7__s0__r1) = +0.12  95% CI [-1.58, +1.95]  over 10 tickers
+window A: SR(qwen__full__real__t0.7__s0__r1) - SR(qwen__analysts__real__t0.7__s0__r1) = +0.55  95% CI [-0.39, +1.65]  over 10 tickers
+window B: SR(qwen__full__real__t0.7__s0__r1) - SR(qwen__analysts__real__t0.7__s0__r1) = +0.63  95% CI [-0.63, +1.98]  over 10 tickers
+window A: SR(qwen__full__real__t0.7__s0__r1) - SR(qwen__debate__real__t0.7__s0__r1) = -0.76  95% CI [-1.90, +0.02]  over 10 tickers
+window B: SR(qwen__full__real__t0.7__s0__r1) - SR(qwen__debate__real__t0.7__s0__r1) = +1.07  95% CI [-0.66, +3.29]  over 10 tickers
+window A: SR(qwen__full__real__t0.7__s0__r1) - SR(qwen__full__anon__t0.7__s0__r1) = +6.52  95% CI [+2.37, +11.12]  over 10 tickers
+window B: SR(qwen__full__real__t0.7__s0__r1) - SR(qwen__full__anon__t0.7__s0__r1) = +0.17  95% CI [-2.24, +2.59]  over 10 tickers
+window A: SR(llama__full__real__t0.7__s0__r1) - SR(llama__full__anon__t0.7__s0__r1) = +5.40  95% CI [+0.55, +10.06]  over 10 tickers
+window B: SR(llama__full__real__t0.7__s0__r1) - SR(llama__full__anon__t0.7__s0__r1) = -0.07  95% CI [-3.91, +3.87]  over 10 tickers
+window A: SR(llama__full__real__t0.7__s0__r1) - SR(llama__single__real__t0.7__s0__r1) = -5.55  95% CI [-11.80, +0.29]  over 10 tickers
+window B: SR(llama__full__real__t0.7__s0__r1) - SR(llama__single__real__t0.7__s0__r1) = -2.16  95% CI [-5.85, +1.46]  over 10 tickers
+window A: SR(qwen__full__real__t0.7__s0__r1) - SR(llama__full__real__t0.7__s0__r1) = +6.14  95% CI [+0.44, +12.23]  over 10 tickers
+window B: SR(qwen__full__real__t0.7__s0__r1) - SR(llama__full__real__t0.7__s0__r1) = +5.02  95% CI [+1.69, +8.33]  over 10 tickers
